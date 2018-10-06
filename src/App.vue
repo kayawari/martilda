@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <Home v-if='!isLogin'></Home>
-    <Editor v-if='isLogin'></Editor>
+    <Editor v-if='isLogin' v-bind:user="userData"></Editor>
   </div>
 </template>
 
@@ -13,8 +13,9 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to My Markdown',
-      isLogin: false
+      msg: 'Welcome to Martilda',
+      isLogin: false,
+      userData: null,
     }
   },
   components: {
@@ -26,8 +27,10 @@ export default {
       console.log(user);
       if(user) {
         this.isLogin = true;
-      }else {
+        this.userData = user;
+      } else {
         this.isLogin = false;
+        this.userData = null;
       };
     });
   },
