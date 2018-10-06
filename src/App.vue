@@ -21,6 +21,16 @@ export default {
     'Home': Home,
     'Editor': Editor,
   },
+  created: function(){
+    firebase.auth().onAuthStateChanged(user => {
+      console.log(user);
+      if(user) {
+        this.isLogin = true;
+      }else {
+        this.isLogin = false;
+      };
+    });
+  },
 }
 </script>
 
