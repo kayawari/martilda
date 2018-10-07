@@ -54,8 +54,12 @@ export default {
         .set(this.memos);
     },
     deleteMemo: function(){
+      firebase
+        .database()
+        .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
+        .remove();
       this.memos.splice(this.selectedIndex, 1);
-      if(this.selectedIndex > 0) {
+      if (this.selectedIndex > 0) {
         this.selectedIndex--;
       }
     },
