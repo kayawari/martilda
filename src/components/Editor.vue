@@ -62,6 +62,13 @@ export default {
       if (this.selectedIndex > 0) {
         this.selectedIndex--;
       }
+
+      // TODO: メモが増えてきたら、都度すべてのデータを更新するはキツイ
+      // メモを削除したあと、keyを貼り直さないとv-for: indexでリスト表示しているので、連番でないとエラーになる
+      firebase
+        .database()
+        .ref('memos/' + this.user.uid)
+        .set(this.memos);
     },
     selectMemo: function(index){
       this.selectedIndex = index;
