@@ -45,7 +45,12 @@ export default {
     addMemo: function(){
       this.memos.push({
         markdown: '無題メモ',
-      })
+      });
+
+      firebase
+        .database()
+        .ref('memos/' + this.user.uid)
+        .set(this.memos);
     },
     saveMemos: function(){
       firebase
@@ -58,6 +63,7 @@ export default {
         .database()
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
         .remove();
+
       this.memos.splice(this.selectedIndex, 1);
       if (this.selectedIndex > 0) {
         this.selectedIndex--;
