@@ -5,6 +5,9 @@
     <div>
       <button @click="logout">logout</button>
     </div>
+    <Flash v-show="flash" @closeFlash="closeFlash">
+      <p>メモを削除しました</p>
+    </Flash>
     <div class="memoListWrapper">
       <div class="memoList" v-for="(memo, index) in memos" @click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
         <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
@@ -28,11 +31,15 @@
 
 <script>
 import marked from 'marked';
-import Modal from './Modal.vue'
+import Modal from './Modal.vue';
+import Flash from './Flash.vue';
 
 export default {
   name: 'editor',
-  components: { Modal },
+  components: {
+    'Modal': Modal,
+    'Flash': Flash,
+  },
   props: ['user'],
   data () {
     return {
@@ -42,6 +49,7 @@ export default {
       }],
       selectedIndex: 0,
       modal: false,
+      flash: false,
     }
   },
   methods: {
@@ -86,6 +94,7 @@ export default {
         .set(this.memos);
 
       this.modal = false;
+      this.flash = true;
     },
     selectMemo: function(index){
       this.selectedIndex = index;
@@ -98,6 +107,9 @@ export default {
     },
     closeModal: function() {
       this.modal = false;
+    },
+    closeFlash: function() {
+      this.flash = false;
     }
   },
   created: function(){
