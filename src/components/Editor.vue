@@ -10,7 +10,13 @@
         <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
       </div>
       <button class="addMemoBtn" @click="addMemo">メモ追加</button>
-      <button class="deleteMemoBtn" v-if="memos.length > 1" @click="deleteMemo">削除</button>
+      <button class="deleteMemoBtn" v-if="memos.length > 1" @click="openModal">削除</button>
+      <Modal @close="closeModal" v-if="modal">
+        <p>メモを削除します</p>
+        <template slot="footer">
+          <button @click="deleteMemo">削除</button>
+        </template>
+      </Modal>
       <button class="saveMemosBtn" @click="saveMemos">保存</button>
     </div>
     <div class="editorWrapper">
@@ -22,9 +28,11 @@
 
 <script>
 import marked from 'marked';
+import Modal from './Modal.vue'
 
 export default {
   name: 'editor',
+  components: { Modal },
   props: ['user'],
   data () {
     return {
@@ -33,6 +41,7 @@ export default {
         markdown: ''
       }],
       selectedIndex: 0,
+      modal: false,
     }
   },
   methods: {
@@ -75,6 +84,8 @@ export default {
         .database()
         .ref('memos/' + this.user.uid)
         .set(this.memos);
+
+      this.modal = false;
     },
     selectMemo: function(index){
       this.selectedIndex = index;
@@ -82,6 +93,12 @@ export default {
     displayTitle: function(text){
       return text.split(/\n/)[0];
     },
+    openModal: function() {
+      this.modal = true;
+    },
+    closeModal: function() {
+      this.modal = false;
+    }
   },
   created: function(){
     firebase
