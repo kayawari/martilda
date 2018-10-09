@@ -3,24 +3,24 @@
     <h1>Editor Page</h1>
     <span>{{user.displayName}}</span>
     <div>
-      <button @click="logout">logout</button>
+      <button v-on:click="logout">logout</button>
     </div>
     <Flash v-show="flash" @closeFlash="closeFlash">
       <p>メモを削除しました</p>
     </Flash>
     <div class="memoListWrapper">
-      <div class="memoList" v-for="(memo, index) in memos" @click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
+      <div class="memoList" v-for="(memo, index) in memos" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
         <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
       </div>
-      <button class="addMemoBtn" @click="addMemo">メモ追加</button>
-      <button class="deleteMemoBtn" v-if="memos.length > 1" @click="openModal">削除</button>
+      <button class="addMemoBtn" v-on:click="addMemo">メモ追加</button>
+      <button class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</button>
       <Modal @close="closeModal" v-if="modal">
         <p>メモを削除します</p>
         <template slot="footer">
-          <button @click="deleteMemo">削除</button>
+          <button v-on:click="deleteMemo">削除</button>
         </template>
       </Modal>
-      <button class="saveMemosBtn" @click="saveMemos">保存</button>
+      <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
     <div class="editorWrapper">
       <textarea class="markdown" v-model="memos[selectedIndex].markdown"></textarea>

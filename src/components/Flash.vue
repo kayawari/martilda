@@ -1,5 +1,5 @@
 <template>
-  <div class="flash-message" @click="$emit('closeFlash')">
+  <div class="flash-message" v-on:click="$emit('closeFlash')">
     <slot/>
   </div>
 </template>
