@@ -5,9 +5,12 @@
     <div>
       <button v-on:click="logout">logout</button>
     </div>
-    <Flash v-show="flash" @closeFlash="closeFlash">
+    <Alert v-show="alert" @closeAlert="closeAlert">
       <p>メモを削除しました</p>
-    </Flash>
+    </Alert>
+    <Notice v-show="notice" @closeNotice="closeNotice">
+      <p>メモを保存しました</p>
+    </Notice>
     <div class="memoListWrapper">
       <div class="memoList" v-for="(memo, index) in memos" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
         <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
@@ -32,13 +35,15 @@
 <script>
 import marked from 'marked';
 import Modal from './Modal.vue';
-import Flash from './Flash.vue';
+import Alert from './flash_messages/Alert.vue';
+import Notice from './flash_messages/Notice.vue';
 
 export default {
   name: 'editor',
   components: {
     'Modal': Modal,
-    'Flash': Flash,
+    'Alert': Alert,
+    'Notice': Notice,
   },
   props: ['user'],
   data () {
@@ -49,7 +54,8 @@ export default {
       }],
       selectedIndex: 0,
       modal: false,
-      flash: false,
+      alert: false,
+      notice: false,
     }
   },
   methods: {
@@ -74,6 +80,7 @@ export default {
         .database()
         .ref('memos/' + this.user.uid)
         .set(this.memos);
+      this.notice = true;
     },
     deleteMemo: function(){
       firebase
@@ -94,7 +101,7 @@ export default {
         .set(this.memos);
 
       this.modal = false;
-      this.flash = true;
+      this.alert = true;
     },
     selectMemo: function(index){
       this.selectedIndex = index;
@@ -108,8 +115,11 @@ export default {
     closeModal: function() {
       this.modal = false;
     },
-    closeFlash: function() {
-      this.flash = false;
+    closeAlert: function() {
+      this.alert = false;
+    },
+    closeNotice: function() {
+      this.notice = false;
     }
   },
   created: function(){

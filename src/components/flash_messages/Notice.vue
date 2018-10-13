@@ -1,13 +1,13 @@
 <template>
-  <div class="flash-message" v-on:click="$emit('closeFlash')">
+  <div class="notice-message" v-on:click="$emit('closeNotice')">
     <slot/>
   </div>
 </template>
 
 <style lang="scss">
-  .flash-message {
+  .notice-message {
     width: 100%;
-    background: crimson;
+    background: forestgreen;
     text-align: center;
     padding: 10px;
     color: white;
