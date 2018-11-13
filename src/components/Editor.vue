@@ -12,9 +12,11 @@
       <p>メモを保存しました</p>
     </Notice>
     <div class="memoListWrapper">
-      <div class="memoList" v-for="(memo, index) in memos" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
-        <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
-      </div>
+      <transition-group name="memoList" tag="div">
+        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="memo" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
+          <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
+        </div>
+      </transition-group>
       <button class="addMemoBtn" v-on:click="addMemo">メモ追加</button>
       <button class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</button>
       <Modal @close="closeModal" v-if="modal">
@@ -143,7 +145,7 @@ export default {
   border-top: 1px solid #000;
 }
 .memoList {
-  padding: 10px;
+  padding: 5px;
   box-sizing: border-box;
   text-align: left;
   border-bottom: 1px solid #000;
@@ -161,6 +163,16 @@ export default {
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
+}
+.memoList-enter-active, .memoList-leave-active {
+  transition: opacity 0.4s;
+}
+.memoList-leave-active {
+  transition: opacity 0.4s ease 0.4s;
+}
+.memoList-enter, .memoList-leave_to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 .addMemoBtn {
   margin-top: 20px;
