@@ -28,7 +28,9 @@
       <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
     <div class="editorWrapper">
-      <textarea class="markdown" v-model="memos[selectedIndex].markdown"></textarea>
+      <transition name="editor" tag="div">
+        <textarea class="markdown" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
+      </transition>
       <div class="preview" v-html="preview()"></div>
     </div>
   </div>
@@ -182,6 +184,13 @@ export default {
 }
 .editorWrapper{
   display: flex;
+}
+.editor-enter {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.editor-enter-active {
+  transition: opacity 0.4s;
 }
 .markdown {
   width: 50%;
