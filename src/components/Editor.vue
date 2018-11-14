@@ -29,7 +29,7 @@
     </div>
     <div class="editorWrapper">
       <transition name="editor" tag="div">
-        <textarea class="markdown" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
+        <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
       </transition>
       <div class="preview" v-html="preview()"></div>
     </div>
