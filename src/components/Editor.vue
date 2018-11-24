@@ -68,9 +68,9 @@ export default {
     }
   },
   watch: {
-    searchText: function(newText, _oldText) {
+    searchText: _.debounce(function(newText, _oldText) {
       this.filterMemos(newText);
-    }
+    }, 1000)
   },
   methods: {
     logout: function(){
