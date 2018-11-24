@@ -11,6 +11,9 @@
     <Notice v-show="notice" @closeNotice="closeNotice">
       <p>メモを保存しました</p>
     </Notice>
+    <div>
+      <input type="text" v-model="searchText">
+    </div>
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
         <div class="memoList" v-for="(memo, index) in memos" v-bind:key="memo" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
@@ -38,6 +41,7 @@
 
 <script>
 import marked from 'marked';
+import _ from 'lodash';
 import Modal from './Modal.vue';
 import Alert from './flash_messages/Alert.vue';
 import Notice from './flash_messages/Notice.vue';
@@ -52,6 +56,7 @@ export default {
   props: ['user'],
   data () {
     return {
+      searchText: "",
       markdown: '',
       memos: [{
         markdown: ''
@@ -60,6 +65,11 @@ export default {
       modal: false,
       alert: false,
       notice: false,
+    }
+  },
+  watch: {
+    searchText: function(newText, _oldText) {
+      this.filterMemos(newText);
     }
   },
   methods: {
@@ -124,6 +134,12 @@ export default {
     },
     closeNotice: function() {
       this.notice = false;
+    },
+    filterMemos: function(newText) {
+      var beforeSearchingMemos = this.memos;
+      this.memos = _.filter(beforeSearchingMemos, function (memo) {
+        return _.includes(memo.markdown.toLowerCase(), newText.toLowerCase());
+      });
     }
   },
   created: function(){
@@ -136,7 +152,7 @@ export default {
           this.memos = result.val();
         }
       })
-  }
+  },
 }
 </script>
 
