@@ -136,10 +136,20 @@ export default {
       this.notice = false;
     },
     filterMemos: function(newText) {
-      var beforeSearchingMemos = this.memos;
-      this.memos = _.filter(beforeSearchingMemos, function (memo) {
-        return _.includes(memo.markdown.toLowerCase(), newText.toLowerCase());
-      });
+      var allMemos = {};
+
+      firebase
+        .database()
+        .ref('memos/' + this.user.uid)
+        .once('value')
+        .then(result => {
+          if(result.val()) {
+            allMemos = result.val();
+            this.memos = _.filter(allMemos, function (memo) {
+              return _.includes(memo.markdown.toLowerCase(), newText.toLowerCase());
+            });
+          }
+        })
     }
   },
   created: function(){
