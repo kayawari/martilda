@@ -22,21 +22,20 @@ export default {
   },
   components: {
     'Home': Home,
-    'Editor': Editor,
+    'Editor': Editor
   },
-  created: function(){
+  created: function () {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
-      if(user) {
-        this.isLogin = true;
-        this.userData = user;
+      if (user) {
+        this.isLogin = true
+        this.userData = user
       } else {
-        this.isLogin = false;
-        this.userData = null;
-      };
-      this.loading = false;
-    });
-  },
+        this.isLogin = false
+        this.userData = null
+      }
+      this.loading = false
+    })
+  }
 }
 </script>
 

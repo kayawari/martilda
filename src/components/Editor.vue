@@ -40,23 +40,23 @@
 </template>
 
 <script>
-import marked from 'marked';
-import _ from 'lodash';
-import Modal from './Modal.vue';
-import Alert from './flash_messages/Alert.vue';
-import Notice from './flash_messages/Notice.vue';
+import marked from 'marked'
+import _ from 'lodash'
+import Modal from './Modal.vue'
+import Alert from './flash_messages/Alert.vue'
+import Notice from './flash_messages/Notice.vue'
 
 export default {
   name: 'editor',
   components: {
     'Modal': Modal,
     'Alert': Alert,
-    'Notice': Notice,
+    'Notice': Notice
   },
   props: ['user'],
   data () {
     return {
-      searchText: "",
+      searchText: '',
       markdown: '',
       memos: [{
         markdown: ''
@@ -64,47 +64,47 @@ export default {
       selectedIndex: 0,
       modal: false,
       alert: false,
-      notice: false,
+      notice: false
     }
   },
   watch: {
-    searchText: _.debounce(function(newText, _oldText) {
-      this.filterMemos(newText);
+    searchText: _.debounce(function (newText, _oldText) {
+      this.filterMemos(newText)
     }, 1000)
   },
   methods: {
-    logout: function(){
-      firebase.auth().signOut();
+    logout: function () {
+      firebase.auth().signOut()
     },
-    preview: function(){
-      return marked(this.memos[this.selectedIndex].markdown);
+    preview: function () {
+      return marked(this.memos[this.selectedIndex].markdown)
     },
-    addMemo: function(){
+    addMemo: function () {
       this.memos.push({
-        markdown: '無題メモ',
-      });
+        markdown: '無題メモ'
+      })
 
       firebase
         .database()
         .ref('memos/' + this.user.uid)
-        .set(this.memos);
+        .set(this.memos)
     },
-    saveMemos: function(){
+    saveMemos: function () {
       firebase
         .database()
         .ref('memos/' + this.user.uid)
-        .set(this.memos);
-      this.notice = true;
+        .set(this.memos)
+      this.notice = true
     },
-    deleteMemo: function(){
+    deleteMemo: function () {
       firebase
         .database()
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
-        .remove();
+        .remove()
 
-      this.memos.splice(this.selectedIndex, 1);
+      this.memos.splice(this.selectedIndex, 1)
       if (this.selectedIndex > 0) {
-        this.selectedIndex--;
+        this.selectedIndex--
       }
 
       // TODO: メモが増えてきたら、都度すべてのデータを更新するはキツイ
@@ -112,57 +112,57 @@ export default {
       firebase
         .database()
         .ref('memos/' + this.user.uid)
-        .set(this.memos);
+        .set(this.memos)
 
-      this.modal = false;
-      this.alert = true;
+      this.modal = false
+      this.alert = true
     },
-    selectMemo: function(index){
-      this.selectedIndex = index;
+    selectMemo: function (index) {
+      this.selectedIndex = index
     },
-    displayTitle: function(text){
-      return text.split(/\n/)[0];
+    displayTitle: function (text) {
+      return text.split(/\n/)[0]
     },
-    openModal: function() {
-      this.modal = true;
+    openModal: function () {
+      this.modal = true
     },
-    closeModal: function() {
-      this.modal = false;
+    closeModal: function () {
+      this.modal = false
     },
-    closeAlert: function() {
-      this.alert = false;
+    closeAlert: function () {
+      this.alert = false
     },
-    closeNotice: function() {
-      this.notice = false;
+    closeNotice: function () {
+      this.notice = false
     },
-    filterMemos: function(newText) {
-      var allMemos = {};
+    filterMemos: function (newText) {
+      var allMemos = {}
 
       firebase
         .database()
         .ref('memos/' + this.user.uid)
         .once('value')
         .then(result => {
-          if(result.val()) {
-            allMemos = result.val();
+          if (result.val()) {
+            allMemos = result.val()
             this.memos = _.filter(allMemos, function (memo) {
-              return _.includes(memo.markdown.toLowerCase(), newText.toLowerCase());
-            });
+              return _.includes(memo.markdown.toLowerCase(), newText.toLowerCase())
+            })
           }
         })
     }
   },
-  created: function(){
+  created: function () {
     firebase
       .database()
       .ref('memos/' + this.user.uid)
       .once('value')
       .then(result => {
-        if(result.val()) {
-          this.memos = result.val();
+        if (result.val()) {
+          this.memos = result.val()
         }
       })
-  },
+  }
 }
 </script>
 
