@@ -45,6 +45,7 @@ import _ from 'lodash'
 import Modal from './Modal.vue'
 import Alert from './flash_messages/Alert.vue'
 import Notice from './flash_messages/Notice.vue'
+import firebase from 'firebase'
 
 export default {
   name: 'editor',
