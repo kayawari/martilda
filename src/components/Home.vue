@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <h1>{{ msg }} </h1>
+    <h1>Welcome to MyMarkdown</h1>
     <button v-on:click="googleLogin">googleアカウントでログイン</button>
   </div>
 </template>
@@ -9,11 +9,6 @@
 import firebase from 'firebase'
 export default {
   name: 'home',
-  data () {
-    return {
-      msg: 'welcome to MyMarkdown'
-    }
-  },
   methods: {
     googleLogin: function () {
       firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
