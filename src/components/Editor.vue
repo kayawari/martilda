@@ -85,7 +85,7 @@ export default {
       if (this.timer) {
         clearTimeout(this.timer)
       }
-      this.timer = setTimeout(this.saveMemos(), 3000)
+      this.timer = setTimeout(this.saveMemos, 3000)
     },
     addMemo: function () {
       this.memos.push({
