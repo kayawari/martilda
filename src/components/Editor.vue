@@ -103,6 +103,7 @@ export default {
         .ref('memos/' + this.user.uid)
         .set(this.memos)
       this.notice = true
+      setTimeout( this.closeNotice, 3000)
     },
     deleteMemo: function () {
       firebase
