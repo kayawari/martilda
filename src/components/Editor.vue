@@ -16,7 +16,7 @@
     </div>
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
-        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="memo" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
+        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
           <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
         </div>
       </transition-group>
