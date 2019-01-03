@@ -1,7 +1,9 @@
 <template>
-  <div class="notice-message" v-on:click="$emit('closeNotice')">
-    <slot/>
-  </div>
+  <transition name="fade">
+    <div class="notice-message" v-on:click="$emit('closeNotice')">
+      <slot/>
+    </div>
+  </transition>
 </template>
 
 <style lang="scss">
@@ -14,5 +16,11 @@
     font-weight: bold;
     border-bottom: #2c3e50 2px;
     border-top: #2c3e50 2px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>
