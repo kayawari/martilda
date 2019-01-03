@@ -32,7 +32,7 @@
     </div>
     <div class="editorWrapper">
       <transition name="editor" tag="div">
-        <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
+        <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
       </transition>
       <div class="preview" v-html="preview()"></div>
     </div>
@@ -65,7 +65,8 @@ export default {
       selectedIndex: 0,
       modal: false,
       alert: false,
-      notice: false
+      notice: false,
+      timer: null
     }
   },
   watch: {
@@ -79,6 +80,12 @@ export default {
     },
     preview: function () {
       return marked(this.memos[this.selectedIndex].markdown)
+    },
+    countAnySecondToSave: function () {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+      this.timer = setTimeout(this.saveMemos(), 3000)
     },
     addMemo: function () {
       this.memos.push({
