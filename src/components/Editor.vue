@@ -125,6 +125,7 @@ export default {
 
       this.modal = false
       this.alert = true
+      setTimeout( this.closeAlert, 3000)
     },
     selectMemo: function (index) {
       this.selectedIndex = index
