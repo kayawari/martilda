@@ -103,7 +103,7 @@ export default {
         .ref('memos/' + this.user.uid)
         .set(this.memos)
       this.notice = true
-      setTimeout( this.closeNotice, 3000)
+      setTimeout(this.closeNotice, 3000)
     },
     deleteMemo: function () {
       firebase
@@ -125,7 +125,7 @@ export default {
 
       this.modal = false
       this.alert = true
-      setTimeout( this.closeAlert, 3000)
+      setTimeout(this.closeAlert, 3000)
     },
     selectMemo: function (index) {
       this.selectedIndex = index
