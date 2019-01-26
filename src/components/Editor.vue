@@ -88,8 +88,19 @@ export default {
       this.timer = setTimeout(this.saveMemos, 3000)
     },
     addMemo: function () {
+      var date = new Date()
+      var format_date = 'YYYY-MM-DD hh:mm:ss'
+      format_date = format_date.replace(/YYYY/g, date.getFullYear())
+      format_date = format_date.replace(/MM/g, date.getMonth())
+      format_date = format_date.replace(/DD/g, date.getDate())
+      format_date = format_date.replace(/hh/g, date.getHours())
+      format_date = format_date.replace(/mm/g, date.getMinutes())
+      format_date = format_date.replace(/ss/g, date.getSeconds())
+
       this.memos.push({
-        markdown: '無題メモ'
+        markdown: '無題メモ',
+        _updatedAt: format_date,
+        _createdAt: format_date
       })
 
       firebase
@@ -129,6 +140,20 @@ export default {
     },
     selectMemo: function (index) {
       this.selectedIndex = index
+
+      if (this.memos[this.selectedIndex]._updatedAt == undefined || this.memos[this.selectedIndex]._createdAt == undefined) {
+        var date = new Date()
+        var format_date = 'YYYY-MM-DD hh:mm:ss'
+        format_date = format_date.replace(/YYYY/g, date.getFullYear())
+        format_date = format_date.replace(/MM/g, date.getMonth())
+        format_date = format_date.replace(/DD/g, date.getDate())
+        format_date = format_date.replace(/hh/g, date.getHours())
+        format_date = format_date.replace(/mm/g, date.getMinutes())
+        format_date = format_date.replace(/ss/g, date.getSeconds())
+
+        this.memos[this.selectedIndex]._updatedAt = format_date
+        this.memos[this.selectedIndex]._createdAt = format_date
+      }
     },
     displayTitle: function (text) {
       return text.split(/\n/)[0]
