@@ -109,10 +109,25 @@ export default {
         .set(this.memos)
     },
     saveMemos: function () {
+      var memo = this.memos[this.selectedIndex]
+
+      var date = new Date()
+      var format_date = 'YYYY-MM-DD hh:mm:ss'
+      format_date = format_date.replace(/YYYY/g, date.getFullYear())
+      format_date = format_date.replace(/MM/g, date.getMonth())
+      format_date = format_date.replace(/DD/g, date.getDate())
+      format_date = format_date.replace(/hh/g, date.getHours())
+      format_date = format_date.replace(/mm/g, date.getMinutes())
+      format_date = format_date.replace(/ss/g, date.getSeconds())
+
       firebase
         .database()
-        .ref('memos/' + this.user.uid)
-        .set(this.memos)
+        .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
+        .set({
+          markdown: memo.markdown,
+          _updatedAt: format_date,
+          _createdAt: memo._createdAt
+        })
       this.notice = true
       setTimeout(this.closeNotice, 3000)
     },
