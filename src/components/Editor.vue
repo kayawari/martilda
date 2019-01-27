@@ -30,6 +30,7 @@
       </Modal>
       <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
+    <input type="text" class="categories" v-model="memos[selectedIndex].categories">
     <div class="editorWrapper">
       <transition name="editor" tag="div">
         <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
@@ -60,7 +61,8 @@ export default {
       searchText: '',
       markdown: '',
       memos: [{
-        markdown: ''
+        markdown: '',
+        categories: ''
       }],
       selectedIndex: 0,
       modal: false,
@@ -120,13 +122,18 @@ export default {
       formatDate = formatDate.replace(/mm/g, date.getMinutes())
       formatDate = formatDate.replace(/ss/g, date.getSeconds())
 
+      var categoriesList = this.memos[this.selectedIndex].categories.split(',')
+      var categoriesHash = {}
+      categoriesList.map(category => { categoriesHash[category] = true })
+      // TODO: categoriesテーブルにも更新処理が入るようにする
       firebase
         .database()
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
         .set({
           markdown: memo.markdown,
           _updatedAt: formatDate,
-          _createdAt: memo._createdAt
+          _createdAt: memo._createdAt,
+          categories: categoriesHash
         })
       this.notice = true
       setTimeout(this.closeNotice, 3000)
@@ -210,6 +217,7 @@ export default {
       .then(result => {
         if (result.val()) {
           this.memos = result.val()
+          result.val().forEach((v, i) => { this.memos[i].categories = Object.keys(v.categories).join(',') })
         }
       })
   }
