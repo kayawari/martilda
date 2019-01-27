@@ -89,18 +89,18 @@ export default {
     },
     addMemo: function () {
       var date = new Date()
-      var format_date = 'YYYY-MM-DD hh:mm:ss'
-      format_date = format_date.replace(/YYYY/g, date.getFullYear())
-      format_date = format_date.replace(/MM/g, date.getMonth())
-      format_date = format_date.replace(/DD/g, date.getDate())
-      format_date = format_date.replace(/hh/g, date.getHours())
-      format_date = format_date.replace(/mm/g, date.getMinutes())
-      format_date = format_date.replace(/ss/g, date.getSeconds())
+      var formatDate = 'YYYY-MM-DD hh:mm:ss'
+      formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
+      formatDate = formatDate.replace(/MM/g, date.getMonth())
+      formatDate = formatDate.replace(/DD/g, date.getDate())
+      formatDate = formatDate.replace(/hh/g, date.getHours())
+      formatDate = formatDate.replace(/mm/g, date.getMinutes())
+      formatDate = formatDate.replace(/ss/g, date.getSeconds())
 
       this.memos.push({
         markdown: '無題メモ',
-        _updatedAt: format_date,
-        _createdAt: format_date
+        _updatedAt: formatDate,
+        _createdAt: formatDate
       })
 
       firebase
@@ -112,20 +112,20 @@ export default {
       var memo = this.memos[this.selectedIndex]
 
       var date = new Date()
-      var format_date = 'YYYY-MM-DD hh:mm:ss'
-      format_date = format_date.replace(/YYYY/g, date.getFullYear())
-      format_date = format_date.replace(/MM/g, date.getMonth())
-      format_date = format_date.replace(/DD/g, date.getDate())
-      format_date = format_date.replace(/hh/g, date.getHours())
-      format_date = format_date.replace(/mm/g, date.getMinutes())
-      format_date = format_date.replace(/ss/g, date.getSeconds())
+      var formatDate = 'YYYY-MM-DD hh:mm:ss'
+      formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
+      formatDate = formatDate.replace(/MM/g, date.getMonth())
+      formatDate = formatDate.replace(/DD/g, date.getDate())
+      formatDate = formatDate.replace(/hh/g, date.getHours())
+      formatDate = formatDate.replace(/mm/g, date.getMinutes())
+      formatDate = formatDate.replace(/ss/g, date.getSeconds())
 
       firebase
         .database()
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
         .set({
           markdown: memo.markdown,
-          _updatedAt: format_date,
+          _updatedAt: formatDate,
           _createdAt: memo._createdAt
         })
       this.notice = true
@@ -156,18 +156,18 @@ export default {
     selectMemo: function (index) {
       this.selectedIndex = index
 
-      if (this.memos[this.selectedIndex]._updatedAt == undefined || this.memos[this.selectedIndex]._createdAt == undefined) {
+      if (this.memos[this.selectedIndex]._updatedAt === undefined || this.memos[this.selectedIndex]._createdAt === undefined) {
         var date = new Date()
-        var format_date = 'YYYY-MM-DD hh:mm:ss'
-        format_date = format_date.replace(/YYYY/g, date.getFullYear())
-        format_date = format_date.replace(/MM/g, date.getMonth())
-        format_date = format_date.replace(/DD/g, date.getDate())
-        format_date = format_date.replace(/hh/g, date.getHours())
-        format_date = format_date.replace(/mm/g, date.getMinutes())
-        format_date = format_date.replace(/ss/g, date.getSeconds())
+        var formatDate = 'YYYY-MM-DD hh:mm:ss'
+        formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
+        formatDate = formatDate.replace(/MM/g, date.getMonth())
+        formatDate = formatDate.replace(/DD/g, date.getDate())
+        formatDate = formatDate.replace(/hh/g, date.getHours())
+        formatDate = formatDate.replace(/mm/g, date.getMinutes())
+        formatDate = formatDate.replace(/ss/g, date.getSeconds())
 
-        this.memos[this.selectedIndex]._updatedAt = format_date
-        this.memos[this.selectedIndex]._createdAt = format_date
+        this.memos[this.selectedIndex]._updatedAt = formatDate
+        this.memos[this.selectedIndex]._createdAt = formatDate
       }
     },
     displayTitle: function (text) {
