@@ -36,6 +36,8 @@
         <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
       </transition>
       <div class="preview" v-html="preview()"></div>
+      <small>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
+      <small>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
     </div>
   </div>
 </template>
@@ -47,6 +49,7 @@ import Modal from './Modal.vue'
 import Alert from './flash_messages/Alert.vue'
 import Notice from './flash_messages/Notice.vue'
 import firebase from 'firebase'
+import format from 'date-fns/format'
 
 export default {
   name: 'editor',
@@ -62,13 +65,20 @@ export default {
       markdown: '',
       memos: [{
         markdown: '',
-        categories: ''
+        categories: '',
+        _updatedAt: '',
+        _createdAt: ''
       }],
       selectedIndex: 0,
       modal: false,
       alert: false,
       notice: false,
       timer: null
+    }
+  },
+  filters: {
+    dateFormatter: function (date) {
+      return format(new Date(), 'YYYY/MM/DD')
     }
   },
   watch: {
@@ -90,19 +100,10 @@ export default {
       this.timer = setTimeout(this.saveMemos, 3000)
     },
     addMemo: function () {
-      var date = new Date()
-      var formatDate = 'YYYY-MM-DD hh:mm:ss'
-      formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
-      formatDate = formatDate.replace(/MM/g, date.getMonth())
-      formatDate = formatDate.replace(/DD/g, date.getDate())
-      formatDate = formatDate.replace(/hh/g, date.getHours())
-      formatDate = formatDate.replace(/mm/g, date.getMinutes())
-      formatDate = formatDate.replace(/ss/g, date.getSeconds())
-
       this.memos.push({
         markdown: '無題メモ',
-        _updatedAt: formatDate,
-        _createdAt: formatDate
+        _updatedAt: new Date().toString(),
+        _createdAt: new Date().toString()
       })
 
       firebase
@@ -113,15 +114,6 @@ export default {
     saveMemos: function () {
       var memo = this.memos[this.selectedIndex]
 
-      var date = new Date()
-      var formatDate = 'YYYY-MM-DD hh:mm:ss'
-      formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
-      formatDate = formatDate.replace(/MM/g, date.getMonth())
-      formatDate = formatDate.replace(/DD/g, date.getDate())
-      formatDate = formatDate.replace(/hh/g, date.getHours())
-      formatDate = formatDate.replace(/mm/g, date.getMinutes())
-      formatDate = formatDate.replace(/ss/g, date.getSeconds())
-
       var categoriesList = this.memos[this.selectedIndex].categories.split(',')
       var categoriesHash = {}
       categoriesList.map(category => { categoriesHash[category] = true })
@@ -131,7 +123,7 @@ export default {
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
         .set({
           markdown: memo.markdown,
-          _updatedAt: formatDate,
+          _updatedAt: new Date().toString(),
           _createdAt: memo._createdAt,
           categories: categoriesHash
         })
@@ -164,17 +156,8 @@ export default {
       this.selectedIndex = index
 
       if (this.memos[this.selectedIndex]._updatedAt === undefined || this.memos[this.selectedIndex]._createdAt === undefined) {
-        var date = new Date()
-        var formatDate = 'YYYY-MM-DD hh:mm:ss'
-        formatDate = formatDate.replace(/YYYY/g, date.getFullYear())
-        formatDate = formatDate.replace(/MM/g, date.getMonth())
-        formatDate = formatDate.replace(/DD/g, date.getDate())
-        formatDate = formatDate.replace(/hh/g, date.getHours())
-        formatDate = formatDate.replace(/mm/g, date.getMinutes())
-        formatDate = formatDate.replace(/ss/g, date.getSeconds())
-
-        this.memos[this.selectedIndex]._updatedAt = formatDate
-        this.memos[this.selectedIndex]._createdAt = formatDate
+        this.memos[this.selectedIndex]._updatedAt = new Date().toString()
+        this.memos[this.selectedIndex]._createdAt = new Date().toString()
       }
     },
     displayTitle: function (text) {
