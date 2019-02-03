@@ -78,7 +78,7 @@ export default {
   },
   filters: {
     dateFormatter: function (date) {
-      return format(new Date(), 'YYYY/MM/DD')
+      return format(date, 'YYYY/MM/DD')
     }
   },
   watch: {
