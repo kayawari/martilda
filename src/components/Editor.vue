@@ -12,8 +12,15 @@
       <p>メモを保存しました</p>
     </Notice>
     <div>
+      <label>検索:</label>
       <input type="text" v-model="searchText">
     </div>
+
+    <div>
+      <label>カテゴリ:</label>
+      <input type="text" class="categories" v-model="memos[selectedIndex].categories">
+    </div>
+
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
         <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
@@ -30,7 +37,7 @@
       </Modal>
       <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
-    <input type="text" class="categories" v-model="memos[selectedIndex].categories">
+
     <div class="editorWrapper">
       <transition name="editor" tag="div">
         <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
