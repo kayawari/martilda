@@ -1,8 +1,10 @@
 <template>
   <div id="header">
     <h1>Editor Page</h1>
-    <span>{{user.displayName}}</span>
-    <div v-if='islogin'><button v-on:click="logout">logout</button></div>
+    <div v-if='islogin'>
+      <span>{{user.displayName}}</span>
+      <button v-on:click="logout">logout</button>
+    </div>
   </div>
 </template>
 
