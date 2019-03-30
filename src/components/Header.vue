@@ -13,7 +13,7 @@ import firebase from 'firebase'
 
 export default {
   name: 'header',
-  props: ['user','islogin'],
+  props: ['user', 'islogin'],
   methods: {
     logout: function () {
       firebase.auth().signOut()
@@ -21,3 +21,4 @@ export default {
   }
 }
 </script>
+
