@@ -265,12 +265,12 @@ export default {
 .editor-enter-active {
   transition: opacity 0.4s;
 }
-.markdown {
+.markdown, .preview {
   width: 50%;
   height: 500px;
+  padding: 4px;
 }
 .preview {
-  width: 50%;
   text-align: left;
 }
 </style>
