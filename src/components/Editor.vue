@@ -24,15 +24,17 @@
           <small class="memoCreatedAt"><label>createed at:</label>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
         </div>
       </transition-group>
-      <button class="addMemoBtn" v-on:click="addMemo">メモ追加</button>
-      <button class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</button>
+      <div class="memoButtonGroup">
+        <b-button variant="primary" class="addMemoBtn" v-on:click="addMemo">メモ追加</b-button>
+        <b-button variant="light" class="saveMemosBtn" v-on:click="saveMemos">保存</b-button>
+        <b-button variant="danger" class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</b-button>
+      </div>
       <Modal @close="closeModal" v-if="modal">
         <p>メモを削除します</p>
         <template slot="footer">
           <button v-on:click="deleteMemo">削除</button>
         </template>
       </Modal>
-      <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
 
     <div class="editorWrapper">
@@ -226,6 +228,9 @@ export default {
     background-color: #ccf;
   }
 }
+.memoButtonGroup {
+  margin-top: 10px;
+}
 .memoTitle {
   height: 1.5em;
   display: block;
@@ -248,12 +253,6 @@ export default {
 .memoList-enter, .memoList-leave_to {
   opacity: 0;
   transform: translateY(30px);
-}
-.addMemoBtn {
-  margin-top: 20px;
-}
-.deleteMemoBtn{
-  margin: 10px;
 }
 .editorWrapper{
   display: flex;
