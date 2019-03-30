@@ -19,18 +19,22 @@
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
         <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
-          <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
+          <span class="memoTitle">{{displayTitle(memo.markdown)}}</span>
+          <small class="memoUpdatedAt"><label>updated at:</label>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
+          <small class="memoCreatedAt"><label>createed at:</label>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
         </div>
       </transition-group>
-      <button class="addMemoBtn" v-on:click="addMemo">メモ追加</button>
-      <button class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</button>
+      <div class="memoButtonGroup">
+        <b-button variant="primary" class="addMemoBtn" v-on:click="addMemo">メモ追加</b-button>
+        <b-button variant="light" class="saveMemosBtn" v-on:click="saveMemos">保存</b-button>
+        <b-button variant="danger" class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</b-button>
+      </div>
       <Modal @close="closeModal" v-if="modal">
         <p>メモを削除します</p>
         <template slot="footer">
           <button v-on:click="deleteMemo">削除</button>
         </template>
       </Modal>
-      <button class="saveMemosBtn" v-on:click="saveMemos">保存</button>
     </div>
 
     <div class="editorWrapper">
@@ -38,8 +42,6 @@
         <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
       </transition>
       <div class="preview" v-html="preview()"></div>
-      <small>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
-      <small>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
     </div>
   </div>
 </template>
@@ -226,11 +228,21 @@ export default {
     background-color: #ccf;
   }
 }
+.memoButtonGroup {
+  margin-top: 10px;
+}
 .memoTitle {
   height: 1.5em;
+  display: block;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
+}
+.memoUpdatedAt, .memoCreatedAt {
+  display: inline-block;
+  line-height: 0.3em;
+  font-size: xx-small;
+  color: #888888;
 }
 .memoList-enter-active, .memoList-leave-active {
   transition: opacity 0.4s;
@@ -242,12 +254,6 @@ export default {
   opacity: 0;
   transform: translateY(30px);
 }
-.addMemoBtn {
-  margin-top: 20px;
-}
-.deleteMemoBtn{
-  margin: 10px;
-}
 .editorWrapper{
   display: flex;
 }
@@ -258,12 +264,12 @@ export default {
 .editor-enter-active {
   transition: opacity 0.4s;
 }
-.markdown {
+.markdown, .preview {
   width: 50%;
   height: 500px;
+  padding: 4px;
 }
 .preview {
-  width: 50%;
   text-align: left;
 }
 </style>
