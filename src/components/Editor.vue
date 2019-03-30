@@ -19,7 +19,9 @@
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
         <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
-          <p class="memoTitle">{{displayTitle(memo.markdown)}}</p>
+          <span class="memoTitle">{{displayTitle(memo.markdown)}}</span>
+          <small class="memoUpdatedAt"><label>updated at:</label>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
+          <small class="memoCreatedAt"><label>createed at:</label>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
         </div>
       </transition-group>
       <button class="addMemoBtn" v-on:click="addMemo">メモ追加</button>
@@ -38,8 +40,6 @@
         <textarea class="markdown" v-on:keyup.ctrl.83="saveMemos" v-on:input="countAnySecondToSave" v-if="memos.length > 1" v-model="memos[selectedIndex].markdown"></textarea>
       </transition>
       <div class="preview" v-html="preview()"></div>
-      <small>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
-      <small>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
     </div>
   </div>
 </template>
@@ -228,9 +228,16 @@ export default {
 }
 .memoTitle {
   height: 1.5em;
+  display: block;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
+}
+.memoUpdatedAt, .memoCreatedAt {
+  display: inline-block;
+  line-height: 0.3em;
+  font-size: xx-small;
+  color: #888888;
 }
 .memoList-enter-active, .memoList-leave-active {
   transition: opacity 0.4s;
