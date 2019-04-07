@@ -58,8 +58,10 @@ import highlightjs from 'highlight.js'
 import Modal from './Modal.vue'
 import Alert from './flash_messages/Alert.vue'
 import Notice from './flash_messages/Notice.vue'
-import firebase from 'firebase'
 import format from 'date-fns/format'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 
 export default {
   name: 'editor',
