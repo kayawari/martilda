@@ -6,15 +6,21 @@
     <Notice v-show="notice" @closeNotice="closeNotice">
       <p>メモを保存しました</p>
     </Notice>
-    <div>
-      <label>検索:</label>
-      <input type="text" v-model="searchText">
-    </div>
 
-    <div>
-      <label>カテゴリ:</label>
-      <input type="text" class="categories" v-model="memos[selectedIndex].categories">
-    </div>
+    <b-form-group>
+      <b-form inline>
+        <label class="sr-only" for="inline-form-input-search-word">検索</label>
+        <b-input
+          id="inline-form-input-search-word"
+          class="mb-2 mr-sm-2 mb-sm-0"
+          v-model="searchText"
+          placeholder="Enter search word"
+        ></b-input>
+
+        <label class="sr-only" for="inline-form-input-categories">Categories</label>
+        <b-input id="inline-form-input-categories" v-model="memos[selectedIndex].categories" placeholder="Enter categories separated by commas"></b-input>
+      </b-form>
+    </b-form-group>
 
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
