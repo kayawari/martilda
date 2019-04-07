@@ -195,7 +195,7 @@ export default {
         })
     },
     inputTab: function (e) {
-      /* NOTE: textarea内での複数行インデントを可能にしています*/
+      /* NOTE: textarea内での複数行インデントを可能にしています */
       /* ref: https://qiita.com/laineus/items/12a220d2ab086931232d */
       e.preventDefault()
       const TAB_STR = '  '
@@ -206,11 +206,11 @@ export default {
       for (const i in lines) {
         if (i < lineStart || i > lineEnd || lines[i] === '') continue
         if (!e.shiftKey) {
-          selectArea.start += i == lineStart ? TAB_STR.length : 0
+          selectArea.start += i === lineStart ? TAB_STR.length : 0
           lines[i] = TAB_STR + lines[i]
           selectArea.end += TAB_STR.length
         } else if (lines[i].substr(0, TAB_STR.length) === TAB_STR) {
-          selectArea.start -= i == lineStart ? TAB_STR.length : 0
+          selectArea.start -= i === lineStart ? TAB_STR.length : 0
           lines[i] = lines[i].substr(TAB_STR.length)
           selectArea.end -= TAB_STR.length
         }
