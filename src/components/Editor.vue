@@ -104,7 +104,8 @@ export default {
       this.memos.push({
         markdown: '無題メモ',
         _updatedAt: new Date().toString(),
-        _createdAt: new Date().toString()
+        _createdAt: new Date().toString(),
+        categories: ''
       })
 
       firebase
@@ -114,11 +115,6 @@ export default {
     },
     saveMemos: function () {
       var memo = this.memos[this.selectedIndex]
-
-      var categoriesList = this.memos[this.selectedIndex].categories.split(',')
-      var categoriesHash = {}
-      categoriesList.map(category => { categoriesHash[category] = true })
-      // TODO: categoriesテーブルにも更新処理が入るようにする
       firebase
         .database()
         .ref('memos/' + this.user.uid + '/' + this.selectedIndex)
@@ -126,7 +122,7 @@ export default {
           markdown: memo.markdown,
           _updatedAt: new Date().toString(),
           _createdAt: memo._createdAt,
-          categories: categoriesHash
+          categories: this.memos[this.selectedIndex].categories
         })
       this.notice = true
       setTimeout(this.closeNotice, 3000)
@@ -199,10 +195,7 @@ export default {
       .ref('memos/' + this.user.uid)
       .once('value')
       .then(result => {
-        if (result.val()) {
-          this.memos = result.val()
-          result.val().forEach((v, i) => { this.memos[i].categories = Object.keys(v.categories).join(',') })
-        }
+        if (result.val()) { this.memos = result.val() }
       })
   }
 }
