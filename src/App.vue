@@ -1,6 +1,6 @@
 <template>
   <div id='app'>
-    <Header v-bind:user="userData" v-bind:islogin="isLogin"></Header>
+    <HeaderNav v-bind:user="userData" v-bind:islogin="isLogin"></HeaderNav>
     <Home v-if='!isLogin && !loading'></Home>
     <Editor v-if='isLogin' v-bind:user="userData"></Editor>
     <p v-if="loading">loading...</p>
@@ -10,7 +10,7 @@
 <script>
 import Home from './components/Home.vue'
 import Editor from './components/Editor.vue'
-import Header from './components/Header.vue'
+import HeaderNav from './components/HeaderNav.vue'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -27,7 +27,7 @@ export default {
   components: {
     'Home': Home,
     'Editor': Editor,
-    'Header': Header
+    'HeaderNav': HeaderNav
   },
   created: function () {
     firebase.auth().onAuthStateChanged(user => {

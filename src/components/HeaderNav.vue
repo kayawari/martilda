@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <div id="header-nav">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">Martilda</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse">
@@ -18,7 +18,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export default {
-  name: 'header',
+  name: 'header-nav',
   props: [
     'user',
     'islogin'
