@@ -49,6 +49,7 @@
 <script>
 import marked from 'marked'
 import _ from 'lodash'
+import highlightjs from 'highlight.js'
 import Modal from './Modal.vue'
 import Alert from './flash_messages/Alert.vue'
 import Notice from './flash_messages/Notice.vue'
@@ -197,6 +198,13 @@ export default {
       .then(result => {
         if (result.val()) { this.memos = result.val() }
       })
+
+    marked.setOptions({
+      langPrefix: '',
+      highlight: function (code, lang) {
+        return highlightjs.highlightAuto(code, [lang]).value
+      }
+    })
   }
 }
 </script>
