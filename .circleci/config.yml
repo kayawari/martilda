@@ -22,4 +22,31 @@ jobs:
           paths:
             - ~/repo/node_modules
             - ~/repo/dist
-
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          - npm-{{ .Branch }}-
+          - npm-
+      - run:
+        name: Install Dependency
+        command: npm install
+      - run:
+        name: deploy
+        command: ./node_modules/.bin/firebase deploy
+  workflows:
+    version: 2
+    build_deploy:
+      jobs:
+        - build
+        - deploy:
+            requires:
+              - build
+            filters:
+              branches:
+                only: master
