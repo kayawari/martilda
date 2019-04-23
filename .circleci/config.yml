@@ -38,5 +38,4 @@ jobs:
         command: npm install
       - run:
         name: deploy
-        command: ./node_modules/.bin/firebase deploy
-
+        command: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
