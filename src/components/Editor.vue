@@ -247,7 +247,7 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 .memoListWrapper {
   width: 19%;
   float: left;

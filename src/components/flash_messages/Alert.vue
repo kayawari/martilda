@@ -6,7 +6,7 @@
   </transition>
 </template>
 
-<style lang="scss">
+<style lang='scss' scoped>
   .alert-message {
     width: 100%;
     background: crimson;
