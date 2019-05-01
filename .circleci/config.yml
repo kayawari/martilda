@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.3
-    working_directory: ~/martilda
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
@@ -20,12 +20,12 @@ jobs:
       - save_cache:
           key: npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - ~/martilda/node_modules
-            - ~/martilda/dist
+            - ~/repo/node_modules
+            - ~/repo/dist
   deploy:
     docker:
       - image: circleci/node:10.15.3
-    working_directory: ~/martilda
+    working_directory: ~/repo
     steps:
       - checkout
       - run:
