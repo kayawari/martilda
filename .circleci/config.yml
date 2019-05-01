@@ -7,35 +7,20 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.3
-    working_directory: ~/repo
+    working_directory: ~/martilda
     steps:
       - checkout
       - restore_cache:
           keys:
             - npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - npm-{{ .Branch }}-
-            - npm-
+            - npm-{{ .Branch }}
       - run: npm install
+      - run: npm run build --report
+      - run: npm run unit
+      - run: npm run e2e
       - run: npm run lint
       - save_cache:
           key: npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - ~/repo/node_modules
-            - ~/repo/dist
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.15.3
-    steps:
-      - checkout
-      - restore_cache:
-        keys:
-          - npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          - npm-{{ .Branch }}-
-          - npm-
-      - run:
-        name: Install Dependency
-        command: npm install
-      - run:
-        name: deploy
-        command: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
+            - ~/martilda/node_modules
+            - ~/martilda/dist
