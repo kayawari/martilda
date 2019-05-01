@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2.0
+version: 2
 jobs:
   build:
     docker:
@@ -41,7 +41,7 @@ jobs:
         name: deploy
         command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN
 workflows:
-  versions: 2.0
+  version: 2
   build_and_deploy:
     jobs:
       - build
