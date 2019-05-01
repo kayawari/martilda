@@ -40,14 +40,14 @@ jobs:
       - run:
         name: deploy
         command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN
-  workflows:
-    versions: 2.0
-    build_and_deploy:
-      jobs:
-        - build
-        - deploy:
-            requires:
-              - build
-            filters:
-              branches:
-                only: master
+workflows:
+  versions: 2.0
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
