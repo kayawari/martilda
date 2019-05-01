@@ -15,7 +15,7 @@ jobs:
             - npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - npm-{{ .Branch }}
       - run: npm install
-      - run: npm run build --report
+      - run: npm run build
       - run: npm run unit
       - run: npm run e2e
       - run: npm run lint
