@@ -39,5 +39,15 @@ jobs:
           command: npm install
       - run:
         name: deploy
-        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
-
+        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN
+  workflows:
+    versions: 2.0
+    build_deploy:
+      jobs:
+        - build
+        - deploy:
+            requires:
+              - build
+            filters:
+              branches:
+                only: master
