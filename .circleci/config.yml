@@ -32,6 +32,12 @@ jobs:
           name: Install Dependency
           command: npm install
       - run:
+        command: which firebase
+      - run:
+        command: pwd
+      - run:
+        command: ls ./node_modules/.bin
+      - run:
         name: deploy
         command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
 workflows:
