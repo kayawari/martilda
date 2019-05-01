@@ -29,14 +29,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Dependency
-          command: npm install
-      - run:
-        command: which firebase
-      - run:
-        command: pwd
-      - run:
-        command: ls ./node_modules/.bin
+        name: Install Dependency
+        command: npm install
       - run:
         name: deploy
         command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
@@ -45,6 +39,6 @@ workflows:
   build_deploy:
     jobs:
       - deploy:
-          filters:
-            branches:
-              only: master
+        filters:
+          branches:
+            only: master
