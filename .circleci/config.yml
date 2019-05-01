@@ -24,3 +24,20 @@ jobs:
           paths:
             - ~/martilda/node_modules
             - ~/martilda/dist
+  deploy:
+    working_directory: ~/martilda
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          - npm-{{ .Branch }}
+      - run:
+          name: Install Dependency
+          command: npm install
+      - run:
+        name: deploy
+        command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+
