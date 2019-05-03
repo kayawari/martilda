@@ -310,5 +310,7 @@ export default {
 }
 .preview {
   text-align: left;
+  overflow: auto;
+  border: 1px solid gray;
 }
 </style>
