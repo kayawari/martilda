@@ -1,8 +1,8 @@
 <template>
   <div id='app'>
-    <HeaderNav v-bind:user="userData" v-bind:islogin="isLogin"></HeaderNav>
+    <HeaderNav :user="userData" :islogin="isLogin"></HeaderNav>
     <Home v-if='!isLogin && !loading'></Home>
-    <Editor v-if='isLogin' v-bind:user="userData"></Editor>
+    <Editor v-if='isLogin' :user="userData"></Editor>
     <p v-if="loading">loading...</p>
   </div>
 </template>

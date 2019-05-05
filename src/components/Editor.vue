@@ -24,7 +24,7 @@
 
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
-        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" @click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
+        <div class="memoList" v-for="(memo, index) in memos" :key="`memoList-${index}`" @click="selectMemo(index)" :data-selected="index == selectedIndex">
           <span class="memoTitle">{{displayTitle(memo.markdown)}}</span>
           <small class="memoUpdatedAt"><label>updated at:</label>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
           <small class="memoCreatedAt"><label>createed at:</label>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
