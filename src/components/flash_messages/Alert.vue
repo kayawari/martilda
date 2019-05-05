@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="alert-message" v-on:click="$emit('closeAlert')">
+    <div class="alert-message" @click="$emit('closeAlert')">
       <slot/>
     </div>
   </transition>

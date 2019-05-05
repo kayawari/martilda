@@ -24,21 +24,21 @@
 
     <div class="memoListWrapper">
       <transition-group name="memoList" tag="div">
-        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" v-on:click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
+        <div class="memoList" v-for="(memo, index) in memos" v-bind:key="`memoList-${index}`" @click="selectMemo(index)" v-bind:data-selected="index == selectedIndex">
           <span class="memoTitle">{{displayTitle(memo.markdown)}}</span>
           <small class="memoUpdatedAt"><label>updated at:</label>{{memos[selectedIndex]._updatedAt | dateFormatter}}</small>
           <small class="memoCreatedAt"><label>createed at:</label>{{memos[selectedIndex]._createdAt | dateFormatter}}</small>
         </div>
       </transition-group>
       <div class="memoButtonGroup">
-        <b-button variant="primary" class="addMemoBtn" v-on:click="addMemo">メモ追加</b-button>
-        <b-button variant="light" class="saveMemosBtn" v-on:click="saveMemos">保存</b-button>
-        <b-button variant="danger" class="deleteMemoBtn" v-if="memos.length > 1" v-on:click="openModal">削除</b-button>
+        <b-button variant="primary" class="addMemoBtn" @click="addMemo">メモ追加</b-button>
+        <b-button variant="light" class="saveMemosBtn" @click="saveMemos">保存</b-button>
+        <b-button variant="danger" class="deleteMemoBtn" v-if="memos.length > 1" @click="openModal">削除</b-button>
       </div>
       <Modal @close="closeModal" v-if="modal">
         <p>メモを削除します</p>
         <template slot="footer">
-          <button v-on:click="deleteMemo">削除</button>
+          <button @click="deleteMemo">削除</button>
         </template>
       </Modal>
     </div>

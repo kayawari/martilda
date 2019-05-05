@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <h1>Welcome to MyMarkdown</h1>
-    <button v-on:click="googleLogin">googleアカウントでログイン</button>
+    <button @click="googleLogin">googleアカウントでログイン</button>
   </div>
 </template>
 
