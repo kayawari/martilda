@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Signin from '@/components/Signin'
 import Editor from '@/components/Editor'
+import NotFound from '@/components/NotFound'
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(Router)
@@ -20,6 +21,10 @@ export default new Router({
       name: 'Editor',
       component: Editor,
       meta: { requireAuth: true }
+    },
+    {
+      path: '*',
+      component: NotFound
     }
   ]
 })
