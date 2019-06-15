@@ -76,9 +76,9 @@ export default {
     'Alert': Alert,
     'Notice': Notice
   },
-  props: ['user'],
   data () {
     return {
+      user: firebase.auth().currentUser,
       searchText: '',
       markdown: '',
       memos: [{

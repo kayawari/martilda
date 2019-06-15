@@ -22,10 +22,25 @@ firebase.initializeApp({
   messagingSenderId: '536717214627'
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        next()
+      } else {
+        next({
+          path: '/',
+          query: {redirect: to.fullPath}
+        })
+      }
+    })
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App)
+}).$mount('#app')
