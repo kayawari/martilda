@@ -228,7 +228,7 @@ export default {
       return true
     }
   },
-  created: function () {
+  created () {
     firebase
       .database()
       .ref('memos/' + this.user.uid)

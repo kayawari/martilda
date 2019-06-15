@@ -1,13 +1,18 @@
 <template>
   <div id='app'>
-    <!--<HeaderNav :currentUser="currentUser" :isLogin="isLogin"></HeaderNav>-->
+    <HeaderNav></HeaderNav>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import HeaderNav from './components/HeaderNav'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    HeaderNav: HeaderNav
+  }
 }
 </script>
 
