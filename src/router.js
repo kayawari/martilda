@@ -5,6 +5,8 @@ import Signin from '@/components/Signin'
 import Editor from '@/components/Editor'
 import NotFound from '@/components/NotFound'
 import BootstrapVue from 'bootstrap-vue'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
@@ -20,7 +22,12 @@ export default new Router({
     {
       path: '/signin',
       name: 'Signin',
-      component: Signin
+      component: Signin,
+      beforeEnter: function (to, from, next) {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) { next('editor') }
+        })
+      }
     },
     {
       path: '/editor',
