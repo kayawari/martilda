@@ -25,7 +25,11 @@ export default new Router({
       component: Signin,
       beforeEnter: function (to, from, next) {
         firebase.auth().onAuthStateChanged(user => {
-          if (user) { next('editor') }
+          if (user) {
+            next('editor')
+          } else {
+            next()
+          }
         })
       }
     },
