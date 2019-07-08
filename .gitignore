@@ -19,3 +19,4 @@ selenium-server.log
 
 # firebase
 .firebase
+.env
