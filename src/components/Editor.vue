@@ -47,7 +47,7 @@
       <transition name="editor" tag="div">
         <textarea class="markdown"
                   v-on:keyup.ctrl.83="saveMemos"
-                  v-on:keydown.tab.prevent="inputTab($event)"
+                  v-on:keydown.tab.prevent="insertTab($event)"
                   v-on:input="countAnySecondToSave"
                   v-if="memos.length > 1"
                   v-model="memos[selectedIndex].markdown"></textarea>
@@ -202,39 +202,23 @@ export default {
           }
         })
     },
-    inputTab: function (e) {
-      /* NOTE: textarea内での複数行インデントを可能にしています */
-      /* ref: https://qiita.com/laineus/items/12a220d2ab086931232d */
-      e.preventDefault()
-      const TAB_STR = '  '
-      const selectArea = { start: e.target.selectionStart, end: e.target.selectionEnd }
-      const lineStart = e.target.value.substr(0, selectArea.start).split('\n').length - 1
-      const lineEnd = e.target.value.substr(0, selectArea.end).split('\n').length - 1
-      const lines = e.target.value.split('\n')
-      for (const i in lines) {
-        if (i < lineStart || i > lineEnd || lines[i] === '') continue
-        if (!e.shiftKey) {
-          selectArea.start += i === lineStart ? TAB_STR.length : 0
-          lines[i] = TAB_STR + lines[i]
-          selectArea.end += TAB_STR.length
-        } else if (lines[i].substr(0, TAB_STR.length) === TAB_STR) {
-          selectArea.start -= i === lineStart ? TAB_STR.length : 0
-          lines[i] = lines[i].substr(TAB_STR.length)
-          selectArea.end -= TAB_STR.length
-        }
-      }
-      e.target.value = lines.join('\n')
-      e.target.setSelectionRange(selectArea.start, selectArea.end)
-      return true
+    insertTab: function (e) {
+      let memo = this.memos[this.selectedIndex];
+      let originalSelectionStart = e.target.selectionStart;
+      let startText = memo.markdown.slice(0, originalSelectionStart);
+      let endText = memo.markdown.slice(originalSelectionStart);
+      memo.markdown = `${startText}\t${endText}`;
+      e.target.value = memo.markdown; // required to make the cursor stay here.
+      e.target.selectionEnd = e.target.selectionStart = originalSelectionStart + 1
     }
   },
-  created () {
-    firebase
-      .database()
-      .ref('memos/' + this.user.uid)
-      .once('value')
-      .then(result => {
-        if (result.val()) { this.memos = result.val() }
+    created () {
+        firebase
+            .database()
+            .ref('memos/' + this.user.uid)
+            .once('value')
+            .then(result => {
+                if (result.val()) { this.memos = result.val() }
       })
 
     marked.setOptions({
